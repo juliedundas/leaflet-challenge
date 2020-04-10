@@ -10,6 +10,8 @@ html {
 }
 
 
-div{
-  font-size:20px;
+.legend{
+  font-size: 15px;
+  background-color: white;
+  padding: 10px;
 }

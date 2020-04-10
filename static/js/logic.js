@@ -1,8 +1,20 @@
+var plates = "data/PB2002_plates.json"
+
+
+
+
 // Creating map object
 var map = L.map("map", {
     center: [39.8283, -98.5795],
     zoom: 5
 });
+
+d3.json(plates), function (data) {
+    console.log(data)
+
+    L.geoJson(data).addTo(map)
+}
+
 
 // Adding tile layer
 var satelliteMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -18,6 +30,8 @@ var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.g
 
 d3.json(link, function (data) {
 
+
+
     //var magnitude = feature.properties.mag
     // console.log(magnitude)
     function createMarkers(feature) {
@@ -28,36 +42,34 @@ d3.json(link, function (data) {
             opacity: 1,
             fillOpactiy: 1,
             fillColor: assignColor(magnitude),
-            color: assignColor(magnitude),
-            //stroke: false,
+            color: "#0E0E0E",
+            //color: assignColor(magnitude),
+            stroke: true,
             // Adjust radius
             radius: assignRadius(magnitude),
             weight: 1
-        }
+        };
     }
 
     //Create the color function to style the different data points
     function assignColor(magnitude) {
         if (magnitude > 5) {
-            return "maroon";
+            return "#FF6347";
         } else if (magnitude > 4) {
-            return "red"
+            return "#FF8C00"
         } else if (magnitude > 3) {
-            return "orange"
+            return "#FFA500"
         } else if (magnitude > 2) {
-            return "yellow"
+            return "#FFA07A"
         } else if (magnitude > 1) {
-            return "darkgreen"
+            return "#F0E68C"
         } else
-            return "lightgreen"
+            return "#ADFF2F"
     }
 
     //Create the radius function to style the sizes of the data points
     function assignRadius(magnitude) {
-        if (magnitude === 0) {
-            return 1;
-        } else
-            return magnitude * 8
+        return magnitude * 5
     }
 
     //add geojson layer
@@ -76,7 +88,7 @@ d3.json(link, function (data) {
 
     //create a variable for the legend
     var legend = L.control({
-        position: "bottomright"
+        position: "bottomright",
     });
 
     //add legend details
